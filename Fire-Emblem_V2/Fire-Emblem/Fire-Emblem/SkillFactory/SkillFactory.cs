@@ -71,6 +71,8 @@ namespace Fire_Emblem {
                     return new AtkResPlusFive(name, description);
                 case "Spd/Res +5":
                     return new SpdResPlusFive(name, description);
+                case "Chaos Style":
+                    return new ChaosStyle(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
