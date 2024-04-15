@@ -1,8 +1,8 @@
 ﻿namespace Fire_Emblem {
-    public class DeathBlowSkill : BlowSkill {
+    public class DeathBlow : BlowSkill {
         public int Bonus { get; private set; }
 
-        public DeathBlowSkill(string name, string description) : base(name, description) {
+        public DeathBlow(string name, string description) : base(name, description) {
             Bonus = 8;
         }
 

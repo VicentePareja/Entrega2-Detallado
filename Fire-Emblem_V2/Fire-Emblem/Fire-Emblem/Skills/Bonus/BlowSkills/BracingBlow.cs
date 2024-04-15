@@ -1,9 +1,9 @@
 ﻿namespace Fire_Emblem {
-    public class BracingBlowSkill : BlowSkill {
+    public class BracingBlow : BlowSkill {
         public int DefBonus { get; private set; }
         public int ResBonus { get; private set; }
 
-        public BracingBlowSkill(string name, string description) : base(name, description) {
+        public BracingBlow(string name, string description) : base(name, description) {
             DefBonus = 6;
             ResBonus = 6;
         }

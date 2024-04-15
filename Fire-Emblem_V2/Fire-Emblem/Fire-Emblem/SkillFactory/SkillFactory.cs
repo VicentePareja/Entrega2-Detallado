@@ -8,19 +8,19 @@ namespace Fire_Emblem {
                 case "Fair Fight":
                     return new FairFightSkill(name, description);
                 case "Death Blow":
-                    return new DeathBlowSkill(name, description);
+                    return new DeathBlow(name, description);
                 case "Armored Blow":
-                    return new ArmoredBlowSkill(name, description);
+                    return new ArmoredBlow(name, description);
                 case "Darting Blow":
-                    return new DartingBlowSkill(name, description);
+                    return new DartingBlow(name, description);
                 case "Warding Blow":
-                    return new WardingBlowSkill(name, description);
+                    return new WardingBlow(name, description);
                 case "Sturdy Blow":
-                    return new SturdyBlowSkill(name, description);
+                    return new SturdyBlow(name, description);
                 case "Steady Blow":
-                    return new SteadyBlowSkill(name, description);
+                    return new SteadyBlow(name, description);
                 case "Bracing Blow":
-                    return new BracingBlowSkill(name, description);
+                    return new BracingBlow(name, description);
                 case "Deadly Blade":
                     return new DeadlyBladeSkill(name, description);
                 case "Swift Sparrow":
