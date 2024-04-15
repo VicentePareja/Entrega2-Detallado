@@ -81,6 +81,8 @@ namespace Fire_Emblem {
                     return new BlindingFlash(name, description);
                 case "Not *Quite*":
                     return new NotQuite(name, description);
+                case "Stunning Smile":
+                    return new StunningSmile(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
