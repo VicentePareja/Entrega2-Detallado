@@ -77,6 +77,10 @@ namespace Fire_Emblem {
                     return new Resolve(name, description);
                 case "Wrath":
                     return new Wrath(name, description);
+                case "Blinding Flash":
+                    return new BlindingFlash(name, description);
+                case "Not *Quite*":
+                    return new NotQuite(name, description);
                 default:
                     return new GenericSkill(name, description);
             }

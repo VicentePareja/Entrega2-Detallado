@@ -20,13 +20,35 @@ namespace Fire_Emblem
 
         public void Start()
         {
+            PrepareCombat();
+            ExecuteCombat();
+            FinalizeCombat();
+        }
+
+        private void PrepareCombat()
+        {
             ApplySkills();
             PrintBonuses(_attacker);
             PrintBonuses(_defender);
+        }
+
+        private void ExecuteCombat()
+        {
             PerformInitialAttack();
-            PerformCounterAttack();
-            PerformFollowUp();
+            if (_defender.CurrentHP > 0)
+            {
+                PerformCounterAttack();
+            }
+            if (_attacker.CurrentHP > 0 && _defender.CurrentHP > 0)
+            {
+                PerformFollowUp();
+            }
+        }
+        
+        private void FinalizeCombat()
+        {
             ClearTemporaryBonuses();
+            ClearTemporaryPenalties();
             PrintFinalState();
         }
 
@@ -79,17 +101,27 @@ namespace Fire_Emblem
             string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
             foreach (var stat in statsOrder)
             {
-                if (character.TemporaryBonuses.TryGetValue(stat, out int bonus) && bonus != 0)
+                int bonus = character.TemporaryBonuses.ContainsKey(stat) ? character.TemporaryBonuses[stat] : 0;
+                int penalty = character.TemporaryPenalties.ContainsKey(stat) ? character.TemporaryPenalties[stat] : 0;
+                int totalEffect = bonus + penalty;
+                if (totalEffect != 0)
                 {
-                    _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0}");
+                    _view.WriteLine($"{character.Name} obtiene {stat}{totalEffect:+#;-#;+0}");
                 }
             }
         }
+
         
         private void ClearTemporaryBonuses()
         {
             _attacker.CleanBonuses();
             _defender.CleanBonuses();
+        }
+
+        private void ClearTemporaryPenalties()
+        {
+            _attacker.CleanPenalties();
+            _defender.CleanPenalties();
         }
 
         private void PrintFinalState()

@@ -15,7 +15,6 @@
     <ItemGroup>
       <Folder Include="Skills\NegateBonus\" />
       <Folder Include="Skills\NegatePenalty\" />
-      <Folder Include="Skills\Penalty\" />
     </ItemGroup>
 
 </Project>

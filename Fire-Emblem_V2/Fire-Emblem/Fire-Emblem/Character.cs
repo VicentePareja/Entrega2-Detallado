@@ -22,13 +22,15 @@ public class Character
     [JsonConverter(typeof(StringToIntConverter))] [JsonPropertyName("Res")] public int Res { get; set; }
     public List<Skill> Skills { get; private set; }
 
-    // Nueva propiedad para los bonos temporales
+    // Propiedades para los bonos y penalizaciones temporales
     public Dictionary<string, int> TemporaryBonuses { get; private set; }
+    public Dictionary<string, int> TemporaryPenalties { get; private set; }
 
     public Character()
     {
         Skills = new List<Skill>();
         TemporaryBonuses = new Dictionary<string, int>();
+        TemporaryPenalties = new Dictionary<string, int>();  // Inicializar el diccionario de penalizaciones
     }
 
     public void AddSkill(Skill skill)
@@ -43,10 +45,20 @@ public class Character
 
     public void AddTemporaryBonus(string attribute, int value)
     {
-        if (TemporaryBonuses.ContainsKey(attribute))
-            TemporaryBonuses[attribute] += value;
+        AddToAttributeDictionary(TemporaryBonuses, attribute, value);
+    }
+
+    public void AddTemporaryPenalty(string attribute, int value)
+    {
+        AddToAttributeDictionary(TemporaryPenalties, attribute, value);
+    }
+
+    private void AddToAttributeDictionary(Dictionary<string, int> dictionary, string attribute, int value)
+    {
+        if (dictionary.ContainsKey(attribute))
+            dictionary[attribute] += value;
         else
-            TemporaryBonuses.Add(attribute, value);
+            dictionary.Add(attribute, value);
     }
 
     public int GetEffectiveAttribute(string attribute)
@@ -58,11 +70,19 @@ public class Character
             "Res" => Res,
             _ => throw new ArgumentException($"Unknown attribute: {attribute}")
         };
-        return baseValue + (TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0);
+
+        int bonus = TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
+        int penalty = TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
+
+        return baseValue + bonus + penalty;
     }
 
     public void CleanBonuses()
     {
         TemporaryBonuses.Clear();
+    }
+    public void CleanPenalties()
+    {
+        TemporaryPenalties.Clear();
     }
 }
