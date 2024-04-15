@@ -57,6 +57,20 @@ namespace Fire_Emblem {
                     return new SingleMinded(name, description);
                 case "Tome Precision":
                     return new TomePrecision(name, description);
+                case "Attack +6" :
+                    return new AttackPlusSix(name, description);
+                case "Speed +5" :
+                    return new SpeedPlusFive(name, description);
+                case "Defense +5":
+                    return new DefensePlusFive(name, description);
+                case "Resistance +5":
+                    return new ResistancePlusFive(name, description);
+                case "Atk/Def +5":
+                    return new AtkDefPlusFive(name, description);
+                case "Atk/Res +5":
+                    return new AtkResPlusFive(name, description);
+                case "Spd/Res +5":
+                    return new SpdResPlusFive(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
