@@ -75,6 +75,8 @@ namespace Fire_Emblem {
                     return new ChaosStyle(name, description);
                 case "Resolve":
                     return new Resolve(name, description);
+                case "Wrath":
+                    return new Wrath(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
