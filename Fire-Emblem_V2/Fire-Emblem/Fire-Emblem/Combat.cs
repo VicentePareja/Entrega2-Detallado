@@ -7,13 +7,15 @@ namespace Fire_Emblem
         public readonly Character _defender;
         private readonly string _advantage;
         private readonly View _view;
+        public Battle _battle;
 
-        public Combat(Character attacker, Character defender, string advantage, View view)
+        public Combat(Character attacker, Character defender, string advantage, View view, Battle battle)
         {
             _attacker = attacker;
             _defender = defender;
             _advantage = advantage;
             _view = view;
+            _battle = battle;
         }
 
         public void Start()
@@ -30,10 +32,10 @@ namespace Fire_Emblem
 
         private void ApplySkills() {
             foreach (var skill in _attacker.Skills) {
-                skill.ApplyEffect(this, _attacker);
+                skill.ApplyEffect(_battle, _attacker);
             }
             foreach (var skill in _defender.Skills) {
-                skill.ApplyEffect(this, _defender);
+                skill.ApplyEffect(_battle, _defender);
             }
         }
 

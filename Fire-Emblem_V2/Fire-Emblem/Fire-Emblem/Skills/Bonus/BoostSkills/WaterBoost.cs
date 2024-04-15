@@ -6,7 +6,8 @@
             Bonus = 6;
         }
 
-        public override void ApplyEffect(Combat combat, Character owner) {
+        public override void ApplyEffect(Battle battle, Character owner) {
+            Combat combat = battle.currentCombat;
             Character otherCharacter;
             Character thisCharacter;
 

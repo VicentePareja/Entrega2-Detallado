@@ -7,9 +7,9 @@
         }
         protected abstract void ApplySpecificEffect(Character owner);
 
-        public override void ApplyEffect(Combat combat, Character owner)
+        public override void ApplyEffect(Battle battle, Character owner)
         {
-            if (combat._attacker == owner)
+            if (battle.currentCombat._attacker == owner)
             {
                 ApplySpecificEffect(owner);
             }

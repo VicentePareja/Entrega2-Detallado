@@ -6,7 +6,8 @@
             Bonus = 12;
         }
 
-        public override void ApplyEffect(Combat combat, Character owner) {
+        public override void ApplyEffect(Battle battle, Character owner) {
+            Combat combat = battle.currentCombat;
 
             if (owner == combat._attacker)
             {

@@ -53,6 +53,8 @@ namespace Fire_Emblem {
                     return new WillToWin(name, description);
                 case "Perceptive":
                     return new Perceptive(name, description);
+                case "Single-Minded":
+                    return new SingleMinded(name, description);
                 default:
                     return new GenericSkill(name, description);
             }

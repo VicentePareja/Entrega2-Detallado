@@ -6,12 +6,15 @@ namespace Fire_Emblem
         public Player Player1 { get; set; }
         public Player Player2 { get; set; }
         private View _view;
+        public Combat currentCombat { get; private set; } = null;
+        public List<(Character Attacker, Character Defender)> CombatHistory { get; private set; }
 
         public Battle(Player player1, Player player2, View view)
         {
             Player1 = player1;
             Player2 = player2;
             _view = view;
+            CombatHistory = new List<(Character Attacker, Character Defender)>();
         }
 
         public void Start()
@@ -50,8 +53,9 @@ namespace Fire_Emblem
         private void PerformTurn(Player attacker, Player defender, int turn)
         {
             var (attackerUnit, defenderUnit, advantage) = PrepareAttack(attacker, defender, turn);
-            Combat combat = new Combat(attackerUnit, defenderUnit, advantage, _view);
-            combat.Start();
+            currentCombat = new Combat( attackerUnit, defenderUnit, advantage, _view, this);
+            currentCombat.Start();
+            CombatHistory.Add((Attacker: attackerUnit, Defender: defenderUnit));
             
             if (attackerUnit.CurrentHP <= 0)
             {

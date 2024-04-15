@@ -10,7 +10,7 @@ public class Skill
         Name = name;
         Description = description;
     }
-    public virtual void ApplyEffect(Combat combat, Character owner)
+    public virtual void ApplyEffect(Battle battle, Character owner)
     {
         Console.WriteLine($"Applying {Name} to {owner.Name}, base skill class.");
     }

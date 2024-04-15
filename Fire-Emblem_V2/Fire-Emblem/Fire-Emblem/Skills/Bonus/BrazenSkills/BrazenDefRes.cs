@@ -7,7 +7,7 @@
             Bonus = 10;
         }
 
-        public override void ApplyEffect(Combat combat, Character owner) {
+        public override void ApplyEffect(Battle battle, Character owner) {
             if (owner.CurrentHP <= owner.MaxHP * 0.8) {
                 owner.AddTemporaryBonus("Def", Bonus);
                 owner.AddTemporaryBonus("Res", Bonus);
