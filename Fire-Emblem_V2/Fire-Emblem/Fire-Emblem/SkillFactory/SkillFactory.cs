@@ -55,6 +55,8 @@ namespace Fire_Emblem {
                     return new Perceptive(name, description);
                 case "Single-Minded":
                     return new SingleMinded(name, description);
+                case "Tome Precision":
+                    return new TomePrecision(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
