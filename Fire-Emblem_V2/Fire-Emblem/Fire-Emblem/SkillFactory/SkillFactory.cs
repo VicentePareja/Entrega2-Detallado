@@ -83,6 +83,10 @@ namespace Fire_Emblem {
                     return new NotQuite(name, description);
                 case "Stunning Smile":
                     return new StunningSmile(name, description);
+                case "Disarming Sigh":
+                    return new DisarmingSigh(name, description);
+                case "Charmer":
+                    return new Charmer(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
