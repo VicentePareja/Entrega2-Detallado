@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>Fire_Emblem</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Fire-Emblem-View\Fire-Emblem-View.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Skills\NegateBonus\" />
+      <Folder Include="Skills\NegatePenalty\" />
+      <Folder Include="Skills\Penalty\" />
+    </ItemGroup>
+
+</Project>
