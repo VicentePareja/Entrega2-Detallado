@@ -17,10 +17,9 @@ public class Attack
     public void PerformAttack(string advantage)
     {
         double weaponTriangleBonus = advantage == "atacante" ? 1.2 : advantage == "defensor" ? 0.8 : 1.0;
-
-        // Obtener los atributos efectivos usando GetEffectiveAttribute()
-        int attackerAtk = Attacker.GetEffectiveAttribute("Atk");
-        int defenderDef = Defender.GetEffectiveAttribute(Attacker.Weapon == "Magic" ? "Res" : "Def");
+        
+        int attackerAtk = Attacker.GetFirstAttackAttribute("Atk");
+        int defenderDef = Defender.GetFirstAttackAttribute(Attacker.Weapon == "Magic" ? "Res" : "Def");
 
         int damage = (int)((attackerAtk * weaponTriangleBonus) - defenderDef);
         damage = Math.Max(damage, 0);
@@ -33,8 +32,37 @@ public class Attack
     public void PerformCounterAttack(string advantage)
     {
         double weaponTriangleBonus = advantage == "defensor" ? 1.2 : advantage == "atacante" ? 0.8 : 1.0;
+        
+        int defenderAtk = Defender.GetFirstAttackAttribute("Atk");
+        int attackerDef = Attacker.GetFirstAttackAttribute(Defender.Weapon == "Magic" ? "Res" : "Def");
 
-        // Obtener los atributos efectivos usando GetEffectiveAttribute()
+        int damage = (int)((defenderAtk * weaponTriangleBonus) - attackerDef);
+        damage = Math.Max(damage, 0);
+
+        _view.WriteLine($"{Defender.Name} ataca a {Attacker.Name} con {damage} de daño");
+
+        Attacker.CurrentHP -= damage;
+    }
+    
+    public void PerformFollowUpAtacker(string advantage)
+    {
+        double weaponTriangleBonus = advantage == "atacante" ? 1.2 : advantage == "defensor" ? 0.8 : 1.0;
+        
+        int attackerAtk = Attacker.GetEffectiveAttribute("Atk");
+        int defenderDef = Defender.GetEffectiveAttribute(Attacker.Weapon == "Magic" ? "Res" : "Def");
+
+        int damage = (int)((attackerAtk * weaponTriangleBonus) - defenderDef);
+        damage = Math.Max(damage, 0);
+
+        _view.WriteLine($"{Attacker.Name} ataca a {Defender.Name} con {damage} de daño");
+
+        Defender.CurrentHP -= damage;
+    }
+    
+    public void PerformFollowUpDefender(string advantage)
+    {
+        double weaponTriangleBonus = advantage == "defensor" ? 1.2 : advantage == "atacante" ? 0.8 : 1.0;
+        
         int defenderAtk = Defender.GetEffectiveAttribute("Atk");
         int attackerDef = Attacker.GetEffectiveAttribute(Defender.Weapon == "Magic" ? "Res" : "Def");
 
@@ -45,4 +73,5 @@ public class Attack
 
         Attacker.CurrentHP -= damage;
     }
+    
 }

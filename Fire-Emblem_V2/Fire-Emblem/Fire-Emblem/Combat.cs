@@ -30,6 +30,8 @@ namespace Fire_Emblem
             ApplySkills();
             PrintBonuses(_attacker);
             PrintBonuses(_defender);
+            PrintFirstAttackBonuses(_attacker);
+            PrintFirstAttackBonuses(_defender);
         }
 
         private void ExecuteCombat()
@@ -83,11 +85,11 @@ namespace Fire_Emblem
                 Attack followUpAttack = new Attack(_attacker, _defender, _view);
                 if (_attacker.GetEffectiveAttribute("Spd") >= _defender.GetEffectiveAttribute("Spd") + 5)
                 {
-                    followUpAttack.PerformAttack(_advantage);
+                    followUpAttack.PerformFollowUpAtacker(_advantage);
                 }
                 else if (_defender.GetEffectiveAttribute("Spd") >= _attacker.GetEffectiveAttribute("Spd") + 5)
                 {
-                    followUpAttack.PerformCounterAttack(_advantage);
+                    followUpAttack.PerformFollowUpDefender(_advantage);
                 }
                 else
                 {
@@ -110,18 +112,37 @@ namespace Fire_Emblem
                 }
             }
         }
+        
+        private void PrintFirstAttackBonuses(Character character)
+        {
+            string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+            foreach (var stat in statsOrder)
+            {
+                int bonus = character.TemporaryFirstAttackBonuses.ContainsKey(stat) ? character.TemporaryFirstAttackBonuses[stat] : 0;
+                int penalty = character.TemporaryFirstAttackPenalties.ContainsKey(stat) ? character.TemporaryFirstAttackPenalties[stat] : 0;
+                int totalEffect = bonus + penalty;
+                if (totalEffect != 0)
+                {
+                    _view.WriteLine($"{character.Name} obtiene {stat}{totalEffect:+#;-#;+0} en su primer ataque");
+                }
+            }
+        }
 
         
         private void ClearTemporaryBonuses()
         {
             _attacker.CleanBonuses();
             _defender.CleanBonuses();
+            _attacker.CleanFirstAttackBonuses();
+            _defender.CleanFirstAttackBonuses();
         }
 
         private void ClearTemporaryPenalties()
         {
             _attacker.CleanPenalties();
             _defender.CleanPenalties();
+            _attacker.CleanFirstAttackPenalties();
+            _defender.CleanFirstAttackPenalties();
         }
 
         private void PrintFinalState()

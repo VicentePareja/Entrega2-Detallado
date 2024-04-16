@@ -21,16 +21,19 @@ public class Character
     [JsonConverter(typeof(StringToIntConverter))] [JsonPropertyName("Def")] public int Def { get; set; }
     [JsonConverter(typeof(StringToIntConverter))] [JsonPropertyName("Res")] public int Res { get; set; }
     public List<Skill> Skills { get; private set; }
-
-    // Propiedades para los bonos y penalizaciones temporales
     public Dictionary<string, int> TemporaryBonuses { get; private set; }
     public Dictionary<string, int> TemporaryPenalties { get; private set; }
+    
+    public Dictionary<string, int> TemporaryFirstAttackBonuses { get; private set; }
+    public Dictionary<string, int> TemporaryFirstAttackPenalties { get; private set; }
 
     public Character()
     {
         Skills = new List<Skill>();
         TemporaryBonuses = new Dictionary<string, int>();
-        TemporaryPenalties = new Dictionary<string, int>();  // Inicializar el diccionario de penalizaciones
+        TemporaryPenalties = new Dictionary<string, int>();
+        TemporaryFirstAttackBonuses = new Dictionary<string, int>();
+        TemporaryFirstAttackPenalties = new Dictionary<string, int>();
     }
 
     public void AddSkill(Skill skill)
@@ -51,6 +54,16 @@ public class Character
     public void AddTemporaryPenalty(string attribute, int value)
     {
         AddToAttributeDictionary(TemporaryPenalties, attribute, value);
+    }
+
+    public void AddTemporaryFirstAttackBonuses(string attribute, int value)
+    {
+        AddToAttributeDictionary(TemporaryFirstAttackBonuses, attribute, value);
+    }
+    
+    public void AddTemporaryFirstAttackPenalties(string attribute, int value)
+    {
+        AddToAttributeDictionary(TemporaryFirstAttackPenalties, attribute, value);
     }
 
     private void AddToAttributeDictionary(Dictionary<string, int> dictionary, string attribute, int value)
@@ -76,13 +89,39 @@ public class Character
 
         return baseValue + bonus + penalty;
     }
+    
+    public int GetFirstAttackAttribute(string attribute)
+    {
+        int baseValue = attribute switch {
+            "Atk" => Atk,
+            "Spd" => Spd,
+            "Def" => Def,
+            "Res" => Res,
+            _ => throw new ArgumentException($"Unknown attribute: {attribute}")
+        };
 
+        int bonusFirstAttack = TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
+        int penaltyFirtsAttack = TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
+        int bonus = TemporaryFirstAttackBonuses.ContainsKey(attribute) ? TemporaryFirstAttackBonuses[attribute] : 0;
+        int penalty = TemporaryFirstAttackPenalties.ContainsKey(attribute) ? TemporaryFirstAttackPenalties[attribute] : 0;
+
+        return baseValue + bonus + penalty + bonusFirstAttack + penaltyFirtsAttack;
+    }
     public void CleanBonuses()
     {
         TemporaryBonuses.Clear();
     }
+
+    public void CleanFirstAttackBonuses()
+    {
+        TemporaryFirstAttackBonuses.Clear();
+    }
     public void CleanPenalties()
     {
         TemporaryPenalties.Clear();
+    }
+    public void CleanFirstAttackPenalties()
+    {
+        TemporaryFirstAttackPenalties.Clear();
     }
 }

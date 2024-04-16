@@ -87,6 +87,10 @@ namespace Fire_Emblem {
                     return new DisarmingSigh(name, description);
                 case "Charmer":
                     return new Charmer(name, description);
+                case "Belief in Love":
+                    return new BeliefInLove(name, description);
+                case "Ignis":
+                    return new Ignis(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
