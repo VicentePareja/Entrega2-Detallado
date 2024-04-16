@@ -91,6 +91,8 @@ namespace Fire_Emblem {
                     return new BeliefInLove(name, description);
                 case "Ignis":
                     return new Ignis(name, description);
+                case "Luna":
+                    return new Luna(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
