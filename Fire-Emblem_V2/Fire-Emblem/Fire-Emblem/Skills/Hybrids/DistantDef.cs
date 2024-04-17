@@ -15,7 +15,7 @@ namespace Fire_Emblem {
             if (opponent == combat._attacker && (opponent.Weapon == "Magic" || opponent.Weapon == "Bow")) {
                 owner.AddTemporaryBonus("Def", 8);
                 owner.AddTemporaryBonus("Res", 8);
-                opponent.AreBonusesEnabled = false;
+                opponent.DisableAllBonuses();
             }
         }
     }

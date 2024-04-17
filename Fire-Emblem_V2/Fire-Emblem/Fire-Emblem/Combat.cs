@@ -140,24 +140,42 @@ namespace Fire_Emblem
             string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
             foreach (var stat in statsOrder)
             {
-                if (character.AreBonusesEnabled == false)
+                bool isBonusEnabled = stat switch {
+                    "Atk" => character.AreAtkBonusesEnabled,
+                    "Spd" => character.AreSpdBonusesEnabled,
+                    "Def" => character.AreDefBonusesEnabled,
+                    "Res" => character.AreResBonusesEnabled,
+                    _ => true
+                };
+
+                if (!isBonusEnabled)
                 {
                     _view.WriteLine($"Los bonus de {stat} de {character.Name} fueron neutralizados");
                 }
             }
         }
+
         
         private void PrintPenaltyNegations(Character character)
         {
             string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
             foreach (var stat in statsOrder)
             {
-                if (character.ArePenaltiesEnabled == false)
+                bool isPenaltyEnabled = stat switch {
+                    "Atk" => character.AreAtkPenaltiesEnabled,
+                    "Spd" => character.AreSpdPenaltiesEnabled,
+                    "Def" => character.AreDefPenaltiesEnabled,
+                    "Res" => character.AreResPenaltiesEnabled,
+                    _ => true
+                };
+
+                if (!isPenaltyEnabled)
                 {
                     _view.WriteLine($"Los penalty de {stat} de {character.Name} fueron neutralizados");
                 }
             }
         }
+
         
         private void PrintFirstAttackBonuses(Character character)
         {
@@ -193,7 +211,7 @@ namespace Fire_Emblem
             _defender.CleanBonuses();
             _attacker.CleanFirstAttackBonuses();
             _defender.CleanFirstAttackBonuses();
-            _attacker.AreBonusesEnabled = true;
+            _attacker.ReEnableBonuses();
         }
 
         private void ClearTemporaryPenalties()
@@ -202,7 +220,7 @@ namespace Fire_Emblem
             _defender.CleanPenalties();
             _attacker.CleanFirstAttackPenalties();
             _defender.CleanFirstAttackPenalties();
-            _defender.ArePenaltiesEnabled = true;
+            _defender.ReEnablePenalties();
         }
 
         private void PrintFinalState()

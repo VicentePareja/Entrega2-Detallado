@@ -13,7 +13,7 @@ namespace Fire_Emblem.NegateBonus{
                 opponent = combat._attacker;
             }
 
-            opponent.AreBonusesEnabled = false;
+            opponent.DisableAllBonuses();
 
         }
     }

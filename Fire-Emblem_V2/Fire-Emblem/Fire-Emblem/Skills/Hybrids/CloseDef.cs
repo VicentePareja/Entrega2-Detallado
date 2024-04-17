@@ -15,7 +15,7 @@ namespace Fire_Emblem {
             if (opponent == combat._attacker && (opponent.Weapon == "Sword" || opponent.Weapon == "Lance" || opponent.Weapon == "Axe")) {
                 owner.AddTemporaryBonus("Def", 8);
                 owner.AddTemporaryBonus("Res", 8);
-                opponent.AreBonusesEnabled = false;
+                opponent.DisableAllBonuses();
             }
         }
     }

@@ -27,11 +27,14 @@ public class Character
     public Dictionary<string, int> TemporaryFirstAttackBonuses { get; private set; }
     public Dictionary<string, int> TemporaryFirstAttackPenalties { get; private set; }
     
-    public bool AreBonusesEnabled { get; set; } = true;
-
-
-    
-    public bool ArePenaltiesEnabled { get; set; } = true;
+    public bool AreAtkBonusesEnabled { get; set; } = true;
+    public bool AreDefBonusesEnabled { get; set; } = true;
+    public bool AreResBonusesEnabled { get; set; } = true;
+    public bool AreSpdBonusesEnabled { get; set; } = true;
+    public bool AreAtkPenaltiesEnabled { get; set; } = true;
+    public bool AreDefPenaltiesEnabled { get; set; } = true;
+    public bool AreResPenaltiesEnabled { get; set; } = true;
+    public bool AreSpdPenaltiesEnabled { get; set; } = true;
 
     public Character()
     {
@@ -52,25 +55,7 @@ public class Character
         Skills = skills;
     }
 
-    public void AddTemporaryBonus(string attribute, int value)
-    {
-        AddToAttributeDictionary(TemporaryBonuses, attribute, value);
-    }
-
-    public void AddTemporaryPenalty(string attribute, int value)
-    {
-        AddToAttributeDictionary(TemporaryPenalties, attribute, value);
-    }
-
-    public void AddTemporaryFirstAttackBonuses(string attribute, int value)
-    {
-        AddToAttributeDictionary(TemporaryFirstAttackBonuses, attribute, value);
-    }
     
-    public void AddTemporaryFirstAttackPenalties(string attribute, int value)
-    {
-        AddToAttributeDictionary(TemporaryFirstAttackPenalties, attribute, value);
-    }
 
     private void AddToAttributeDictionary(Dictionary<string, int> dictionary, string attribute, int value)
     {
@@ -90,11 +75,21 @@ public class Character
             _ => throw new ArgumentException($"Unknown attribute: {attribute}")
         };
 
-        int bonus = AreBonusesEnabled && TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
-        int penalty = ArePenaltiesEnabled && TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
+        int bonus = (attribute == "Atk" && AreAtkBonusesEnabled || 
+                     attribute == "Spd" && AreSpdBonusesEnabled || 
+                     attribute == "Def" && AreDefBonusesEnabled || 
+                     attribute == "Res" && AreResBonusesEnabled) && 
+                    TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
+
+        int penalty = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
+                       attribute == "Spd" && AreSpdPenaltiesEnabled || 
+                       attribute == "Def" && AreDefPenaltiesEnabled || 
+                       attribute == "Res" && AreResPenaltiesEnabled) && 
+                      TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
 
         return baseValue + bonus + penalty;
     }
+
     
     public int GetFirstAttackAttribute(string attribute)
     {
@@ -106,13 +101,87 @@ public class Character
             _ => throw new ArgumentException($"Unknown attribute: {attribute}")
         };
 
-        int bonusFirstAttack = AreBonusesEnabled && TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
-        int penaltyFirtsAttack = ArePenaltiesEnabled && TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
-        int bonus = AreBonusesEnabled && TemporaryFirstAttackBonuses.ContainsKey(attribute) ? TemporaryFirstAttackBonuses[attribute] : 0;
-        int penalty = ArePenaltiesEnabled && TemporaryFirstAttackPenalties.ContainsKey(attribute) ? TemporaryFirstAttackPenalties[attribute] : 0;
+        int bonusFirstAttack = (attribute == "Atk" && AreAtkBonusesEnabled || 
+                                attribute == "Spd" && AreSpdBonusesEnabled || 
+                                attribute == "Def" && AreDefBonusesEnabled || 
+                                attribute == "Res" && AreResBonusesEnabled) && 
+                               TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
 
-        return baseValue + bonus + penalty + bonusFirstAttack + penaltyFirtsAttack;
+        int penaltyFirstAttack = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
+                                  attribute == "Spd" && AreSpdPenaltiesEnabled || 
+                                  attribute == "Def" && AreDefPenaltiesEnabled || 
+                                  attribute == "Res" && AreResPenaltiesEnabled) && 
+                                 TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
+
+        int bonus = (attribute == "Atk" && AreAtkBonusesEnabled || 
+                     attribute == "Spd" && AreSpdBonusesEnabled || 
+                     attribute == "Def" && AreDefBonusesEnabled || 
+                     attribute == "Res" && AreResBonusesEnabled) && 
+                    TemporaryFirstAttackBonuses.ContainsKey(attribute) ? TemporaryFirstAttackBonuses[attribute] : 0;
+
+        int penalty = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
+                       attribute == "Spd" && AreSpdPenaltiesEnabled || 
+                       attribute == "Def" && AreDefPenaltiesEnabled || 
+                       attribute == "Res" && AreResPenaltiesEnabled) && 
+                      TemporaryFirstAttackPenalties.ContainsKey(attribute) ? TemporaryFirstAttackPenalties[attribute] : 0;
+
+        return baseValue + bonus + penalty + bonusFirstAttack + penaltyFirstAttack;
     }
+
+
+    public void DisableAllBonuses()
+    {
+        AreAtkBonusesEnabled = false;
+        AreDefBonusesEnabled = false;
+        AreResBonusesEnabled = false;
+        AreSpdBonusesEnabled = false;
+    }
+    
+    public void DisableAllPenalties()
+    {
+        AreAtkPenaltiesEnabled = false;
+        AreDefPenaltiesEnabled = false;
+        AreResPenaltiesEnabled = false;
+        AreSpdPenaltiesEnabled = false;
+    }
+
+    public void ReEnableBonuses()
+    {
+        AreAtkBonusesEnabled = true;
+        AreDefBonusesEnabled = true;
+        AreResBonusesEnabled = true;
+        AreSpdBonusesEnabled = true;
+    }
+
+    public void ReEnablePenalties()
+    {
+        AreAtkPenaltiesEnabled = true;
+        AreDefPenaltiesEnabled = true;
+        AreResPenaltiesEnabled = true;
+        AreSpdPenaltiesEnabled = true;
+
+    }
+    
+    public void AddTemporaryBonus(string attribute, int value)
+    {
+        AddToAttributeDictionary(TemporaryBonuses, attribute, value);
+    }
+
+    public void AddTemporaryPenalty(string attribute, int value)
+    {
+        AddToAttributeDictionary(TemporaryPenalties, attribute, value);
+    }
+
+    public void AddTemporaryFirstAttackBonuses(string attribute, int value)
+    {
+        AddToAttributeDictionary(TemporaryFirstAttackBonuses, attribute, value);
+    }
+    
+    public void AddTemporaryFirstAttackPenalties(string attribute, int value)
+    {
+        AddToAttributeDictionary(TemporaryFirstAttackPenalties, attribute, value);
+    }
+    
     public void CleanBonuses()
     {
         TemporaryBonuses.Clear();
@@ -130,4 +199,6 @@ public class Character
     {
         TemporaryFirstAttackPenalties.Clear();
     }
+    
+    
 }

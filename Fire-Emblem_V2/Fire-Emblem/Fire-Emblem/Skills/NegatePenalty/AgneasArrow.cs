@@ -6,7 +6,7 @@ namespace Fire_Emblem.NegateBonus{
 
         public override void ApplyEffect(Battle battle, Character owner)
         {
-            owner.ArePenaltiesEnabled = false;
+            owner.DisableAllPenalties();
         }
     }
 }
