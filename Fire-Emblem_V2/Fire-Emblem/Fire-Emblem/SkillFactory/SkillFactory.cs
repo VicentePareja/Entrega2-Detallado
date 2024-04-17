@@ -104,6 +104,20 @@ namespace Fire_Emblem {
                     return new Soulblade(name, description);
                 case "Sword Agility":
                     return new SwordAgility(name, description);
+                case "Lance Power":
+                    return new LancePower(name, description);
+                case "Sword Power":
+                    return new SwordPower(name, description);
+                case "Bow Focus":
+                    return new BowFocus(name, description);
+                case "Lance Agility":
+                    return new LanceAgility(name, description);
+                case "Axe Power":
+                    return new AxePower(name, description);
+                case "Bow Agility":
+                    return new BowAgility(name, description);
+                case "Sword Focus":
+                    return new SwordFocus(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
