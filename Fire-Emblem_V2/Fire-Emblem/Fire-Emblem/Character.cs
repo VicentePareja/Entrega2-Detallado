@@ -28,6 +28,9 @@ public class Character
     public Dictionary<string, int> TemporaryFirstAttackPenalties { get; private set; }
     
     public bool AreBonusesEnabled { get; set; } = true;
+
+
+    
     public bool ArePenaltiesEnabled { get; set; } = true;
 
     public Character()

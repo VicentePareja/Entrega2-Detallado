@@ -120,6 +120,8 @@ namespace Fire_Emblem {
                     return new SwordFocus(name, description);
                 case "Close Def":
                     return new CloseDef(name, description);
+                case "Distant Def":
+                    return new DistantDef(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
