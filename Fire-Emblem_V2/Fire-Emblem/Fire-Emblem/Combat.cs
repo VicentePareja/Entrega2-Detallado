@@ -28,10 +28,31 @@ namespace Fire_Emblem
         private void PrepareCombat()
         {
             ApplySkills();
+            
+            PrintAllBonuses();
+            PrintAllPenalties();
+            PrintAllNegations();
+            
+        }
+
+        private void PrintAllBonuses()
+        {
             PrintBonuses(_attacker);
             PrintBonuses(_defender);
             PrintFirstAttackBonuses(_attacker);
             PrintFirstAttackBonuses(_defender);
+        }
+
+        private void PrintAllPenalties()
+        {
+            PrintPenalties(_attacker);
+            PrintPenalties(_defender);
+            PrintFirstAttackPenalties(_attacker);
+            PrintFirstAttackPenalties(_defender);
+        }
+
+        private void PrintAllNegations()
+        {
             PrintBonusNegations(_attacker);
             PrintBonusNegations(_defender);
             PrintPenaltyNegations(_attacker);
@@ -109,11 +130,22 @@ namespace Fire_Emblem
             foreach (var stat in statsOrder)
             {
                 int bonus = character.TemporaryBonuses.ContainsKey(stat) ? character.TemporaryBonuses[stat] : 0;
-                int penalty = character.TemporaryPenalties.ContainsKey(stat) ? character.TemporaryPenalties[stat] : 0;
-                int totalEffect = bonus + penalty;
-                if (totalEffect != 0)
+                if (bonus != 0)
                 {
-                    _view.WriteLine($"{character.Name} obtiene {stat}{totalEffect:+#;-#;+0}");
+                    _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0}");
+                }
+            }
+        }
+        
+        private void PrintPenalties(Character character)
+        {
+            string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+            foreach (var stat in statsOrder)
+            {
+                int penalty = character.TemporaryPenalties.ContainsKey(stat) ? character.TemporaryPenalties[stat] : 0;
+                if (penalty != 0)
+                {
+                    _view.WriteLine($"{character.Name} obtiene {stat}{penalty:+#;-#;+0}");
                 }
             }
         }
@@ -148,11 +180,23 @@ namespace Fire_Emblem
             foreach (var stat in statsOrder)
             {
                 int bonus = character.TemporaryFirstAttackBonuses.ContainsKey(stat) ? character.TemporaryFirstAttackBonuses[stat] : 0;
-                int penalty = character.TemporaryFirstAttackPenalties.ContainsKey(stat) ? character.TemporaryFirstAttackPenalties[stat] : 0;
-                int totalEffect = bonus + penalty;
-                if (totalEffect != 0)
+                if(bonus != 0)
                 {
-                    _view.WriteLine($"{character.Name} obtiene {stat}{totalEffect:+#;-#;+0} en su primer ataque");
+                    _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0} en su primer ataque");
+                }
+            }
+        }
+        
+        private void PrintFirstAttackPenalties(Character character)
+        {
+            string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+            foreach (var stat in statsOrder)
+            {
+
+                int penalty = character.TemporaryFirstAttackPenalties.ContainsKey(stat) ? character.TemporaryFirstAttackPenalties[stat] : 0;
+                if (penalty != 0)
+                {
+                    _view.WriteLine($"{character.Name} obtiene {stat}{penalty:+#;-#;+0} en su primer ataque");
                 }
             }
         }

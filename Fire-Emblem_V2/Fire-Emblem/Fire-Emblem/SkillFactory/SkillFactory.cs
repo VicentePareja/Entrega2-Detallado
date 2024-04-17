@@ -100,6 +100,8 @@ namespace Fire_Emblem {
                     return new BeorcsBlessing(name, description);
                 case "Agnea's Arrow":
                     return new AgneasArrow(name, description);
+                case "Soulblade":
+                    return new Soulblade(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
