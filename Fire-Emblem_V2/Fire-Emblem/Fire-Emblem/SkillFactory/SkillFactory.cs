@@ -118,6 +118,8 @@ namespace Fire_Emblem {
                     return new BowAgility(name, description);
                 case "Sword Focus":
                     return new SwordFocus(name, description);
+                case "Close Def":
+                    return new CloseDef(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
