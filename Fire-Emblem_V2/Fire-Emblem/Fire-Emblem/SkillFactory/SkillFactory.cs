@@ -122,6 +122,18 @@ namespace Fire_Emblem {
                     return new CloseDef(name, description);
                 case "Distant Def":
                     return new DistantDef(name, description);
+                case "Lull Atk/Spd":
+                    return new LullAtkSpd(name, description);
+                case "Lull Atk/Def":
+                    return new LullAtkDef(name, description);
+                case "Lull Atk/Res":
+                    return new LullAtkRes(name, description);
+                case "Lull Spd/Def":
+                    return new LullSpdDef(name, description);
+                case "Lull Spd/Res":
+                    return new LullSpdRes(name, description);
+                case "Lull Def/Res":
+                    return new LullDefRes(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
