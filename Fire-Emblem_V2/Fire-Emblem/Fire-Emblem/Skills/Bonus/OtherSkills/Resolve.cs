@@ -7,10 +7,10 @@ namespace Fire_Emblem {
         }
 
         public override void ApplyEffect(Battle battle, Character owner) {
-            Combat combat = battle.currentCombat;
+        
             if (owner.CurrentHP <= owner.MaxHP * 0.75) {
                 owner.AddTemporaryBonus("Def", Bonus);
-                combat._defender.AddTemporaryBonus("Res", Bonus);
+                owner.AddTemporaryBonus("Res", Bonus);
             }
         }
     }
