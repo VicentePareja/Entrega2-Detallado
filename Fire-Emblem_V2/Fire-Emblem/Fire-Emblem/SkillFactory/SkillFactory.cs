@@ -1,4 +1,7 @@
 ﻿// SkillFactory.cs
+
+using Fire_Emblem.NegateBonus;
+
 namespace Fire_Emblem {
     public class SkillFactory : ISkillFactory {
         public Skill CreateSkill(string name, string description) {
@@ -93,6 +96,10 @@ namespace Fire_Emblem {
                     return new Ignis(name, description);
                 case "Luna":
                     return new Luna(name, description);
+                case "Beorc's Blessing":
+                    return new BeorcsBlessing(name, description);
+                case "Agnea's Arrow":
+                    return new AgneasArrow(name, description);
                 default:
                     return new GenericSkill(name, description);
             }

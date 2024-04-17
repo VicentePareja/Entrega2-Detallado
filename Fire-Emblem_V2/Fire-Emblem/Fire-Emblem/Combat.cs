@@ -32,7 +32,12 @@ namespace Fire_Emblem
             PrintBonuses(_defender);
             PrintFirstAttackBonuses(_attacker);
             PrintFirstAttackBonuses(_defender);
+            PrintBonusNegations(_attacker);
+            PrintBonusNegations(_defender);
+            PrintPenaltyNegations(_attacker);
+            PrintPenaltyNegations(_defender);
         }
+        
 
         private void ExecuteCombat()
         {
@@ -113,6 +118,30 @@ namespace Fire_Emblem
             }
         }
         
+        private void PrintBonusNegations(Character character)
+        {
+            string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+            foreach (var stat in statsOrder)
+            {
+                if (character.AreBonusesEnabled == false)
+                {
+                    _view.WriteLine($"Los bonus de {stat} de {character.Name} fueron neutralizados");
+                }
+            }
+        }
+        
+        private void PrintPenaltyNegations(Character character)
+        {
+            string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+            foreach (var stat in statsOrder)
+            {
+                if (character.ArePenaltiesEnabled == false)
+                {
+                    _view.WriteLine($"Los penalty de {stat} de {character.Name} fueron neutralizados");
+                }
+            }
+        }
+        
         private void PrintFirstAttackBonuses(Character character)
         {
             string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
@@ -135,6 +164,7 @@ namespace Fire_Emblem
             _defender.CleanBonuses();
             _attacker.CleanFirstAttackBonuses();
             _defender.CleanFirstAttackBonuses();
+            _attacker.AreBonusesEnabled = true;
         }
 
         private void ClearTemporaryPenalties()
@@ -143,6 +173,7 @@ namespace Fire_Emblem
             _defender.CleanPenalties();
             _attacker.CleanFirstAttackPenalties();
             _defender.CleanFirstAttackPenalties();
+            _defender.ArePenaltiesEnabled = true;
         }
 
         private void PrintFinalState()

@@ -26,6 +26,9 @@ public class Character
     
     public Dictionary<string, int> TemporaryFirstAttackBonuses { get; private set; }
     public Dictionary<string, int> TemporaryFirstAttackPenalties { get; private set; }
+    
+    public bool AreBonusesEnabled { get; set; } = true;
+    public bool ArePenaltiesEnabled { get; set; } = true;
 
     public Character()
     {
@@ -84,8 +87,8 @@ public class Character
             _ => throw new ArgumentException($"Unknown attribute: {attribute}")
         };
 
-        int bonus = TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
-        int penalty = TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
+        int bonus = AreBonusesEnabled && TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
+        int penalty = ArePenaltiesEnabled && TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
 
         return baseValue + bonus + penalty;
     }
@@ -100,10 +103,10 @@ public class Character
             _ => throw new ArgumentException($"Unknown attribute: {attribute}")
         };
 
-        int bonusFirstAttack = TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
-        int penaltyFirtsAttack = TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
-        int bonus = TemporaryFirstAttackBonuses.ContainsKey(attribute) ? TemporaryFirstAttackBonuses[attribute] : 0;
-        int penalty = TemporaryFirstAttackPenalties.ContainsKey(attribute) ? TemporaryFirstAttackPenalties[attribute] : 0;
+        int bonusFirstAttack = AreBonusesEnabled && TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
+        int penaltyFirtsAttack = ArePenaltiesEnabled && TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
+        int bonus = AreBonusesEnabled && TemporaryFirstAttackBonuses.ContainsKey(attribute) ? TemporaryFirstAttackBonuses[attribute] : 0;
+        int penalty = ArePenaltiesEnabled && TemporaryFirstAttackPenalties.ContainsKey(attribute) ? TemporaryFirstAttackPenalties[attribute] : 0;
 
         return baseValue + bonus + penalty + bonusFirstAttack + penaltyFirtsAttack;
     }
