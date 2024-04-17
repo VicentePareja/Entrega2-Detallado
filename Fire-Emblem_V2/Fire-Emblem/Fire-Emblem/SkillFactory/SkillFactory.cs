@@ -102,6 +102,8 @@ namespace Fire_Emblem {
                     return new AgneasArrow(name, description);
                 case "Soulblade":
                     return new Soulblade(name, description);
+                case "Sword Agility":
+                    return new SwordAgility(name, description);
                 default:
                     return new GenericSkill(name, description);
             }
