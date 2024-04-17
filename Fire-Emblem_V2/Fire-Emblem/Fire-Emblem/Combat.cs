@@ -28,35 +28,20 @@ namespace Fire_Emblem
         private void PrepareCombat()
         {
             ApplySkills();
-            
-            PrintAllBonuses();
-            PrintAllPenalties();
-            PrintAllNegations();
-            
+
+            PrintSkills(_attacker);
+            PrintSkills(_defender);
+
         }
 
-        private void PrintAllBonuses()
+        private void PrintSkills(Character character)
         {
-            PrintBonuses(_attacker);
-            PrintBonuses(_defender);
-            PrintFirstAttackBonuses(_attacker);
-            PrintFirstAttackBonuses(_defender);
-        }
-
-        private void PrintAllPenalties()
-        {
-            PrintPenalties(_attacker);
-            PrintPenalties(_defender);
-            PrintFirstAttackPenalties(_attacker);
-            PrintFirstAttackPenalties(_defender);
-        }
-
-        private void PrintAllNegations()
-        {
-            PrintBonusNegations(_attacker);
-            PrintBonusNegations(_defender);
-            PrintPenaltyNegations(_attacker);
-            PrintPenaltyNegations(_defender);
+            PrintBonuses(character);
+            PrintFirstAttackBonuses(character);
+            PrintPenalties(character);
+            PrintFirstAttackPenalties(character);
+            PrintBonusNegations(character);
+            PrintPenaltyNegations(character);
         }
         
 
