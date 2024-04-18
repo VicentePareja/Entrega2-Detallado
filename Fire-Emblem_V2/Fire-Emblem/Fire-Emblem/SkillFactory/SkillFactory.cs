@@ -134,6 +134,18 @@ namespace Fire_Emblem {
                     return new LullSpdRes(name, description);
                 case "Lull Def/Res":
                     return new LullDefRes(name, description);
+                case "Fort. Def/Res":
+                    return new FortDefRes(name, description);
+                case "Life and Death":
+                    return new LifeAndDeath(name, description);
+                case "Solid Ground":
+                    return new SolidGround(name, description);
+                case "Still Water":
+                    return new StillWater(name, description);
+                case "Dragonskin":
+                    return new Dragonskin(name, description);
+                case "Light and Dark":
+                    return new LightAndDark(name, description);
                 default:
                     return new GenericSkill(name, description);
             }

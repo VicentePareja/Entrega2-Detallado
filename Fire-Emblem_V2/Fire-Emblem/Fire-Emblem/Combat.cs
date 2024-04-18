@@ -212,6 +212,7 @@ namespace Fire_Emblem
             _attacker.CleanFirstAttackBonuses();
             _defender.CleanFirstAttackBonuses();
             _attacker.ReEnableBonuses();
+            _defender.ReEnableBonuses();
         }
 
         private void ClearTemporaryPenalties()
@@ -220,6 +221,7 @@ namespace Fire_Emblem
             _defender.CleanPenalties();
             _attacker.CleanFirstAttackPenalties();
             _defender.CleanFirstAttackPenalties();
+            _attacker.ReEnablePenalties();
             _defender.ReEnablePenalties();
         }
 
