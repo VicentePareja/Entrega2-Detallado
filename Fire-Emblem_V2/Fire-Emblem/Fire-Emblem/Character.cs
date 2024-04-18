@@ -54,14 +54,7 @@ public class Character
     {
         Skills.Add(skill);
     }
-
-    public void SetSkills(List<Skill> skills)
-    {
-        Skills = skills;
-    }
-
     
-
     private void AddToAttributeDictionary(Dictionary<string, int> dictionary, string attribute, int value)
     {
         if (dictionary.ContainsKey(attribute))
@@ -72,102 +65,69 @@ public class Character
 
     public int GetEffectiveAttribute(string attribute)
     {
-        int baseValue = attribute switch {
-            "Atk" => Atk,
-            "Spd" => Spd,
-            "Def" => Def,
-            "Res" => Res,
-            _ => throw new ArgumentException($"Unknown attribute: {attribute}")
-        };
-
-        int bonus = (attribute == "Atk" && AreAtkBonusesEnabled || 
-                     attribute == "Spd" && AreSpdBonusesEnabled || 
-                     attribute == "Def" && AreDefBonusesEnabled || 
-                     attribute == "Res" && AreResBonusesEnabled) && 
-                    TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
-
-        int penalty = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
-                       attribute == "Spd" && AreSpdPenaltiesEnabled || 
-                       attribute == "Def" && AreDefPenaltiesEnabled || 
-                       attribute == "Res" && AreResPenaltiesEnabled) && 
-                      TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
-
-        return baseValue + bonus + penalty;
+        int baseValue = GetBaseAttributeValue(attribute);
+        return baseValue + GetTotalAttributeAdjustment(attribute, TemporaryBonuses, TemporaryPenalties);
     }
 
-    
     public int GetFirstAttackAttribute(string attribute)
     {
-        int baseValue = attribute switch {
-            "Atk" => Atk,
-            "Spd" => Spd,
-            "Def" => Def,
-            "Res" => Res,
-            _ => throw new ArgumentException($"Unknown attribute: {attribute}")
-        };
-
-        int bonus = (attribute == "Atk" && AreAtkBonusesEnabled || 
-                     attribute == "Spd" && AreSpdBonusesEnabled || 
-                     attribute == "Def" && AreDefBonusesEnabled || 
-                     attribute == "Res" && AreResBonusesEnabled) && 
-                    TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
-
-        int penalty = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
-                       attribute == "Spd" && AreSpdPenaltiesEnabled || 
-                       attribute == "Def" && AreDefPenaltiesEnabled || 
-                       attribute == "Res" && AreResPenaltiesEnabled) && 
-                      TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
-
-        int bonusFirstAttack = (attribute == "Atk" && AreAtkBonusesEnabled || 
-                                attribute == "Spd" && AreSpdBonusesEnabled || 
-                                attribute == "Def" && AreDefBonusesEnabled || 
-                                attribute == "Res" && AreResBonusesEnabled) && 
-                               TemporaryFirstAttackBonuses.ContainsKey(attribute) ? TemporaryFirstAttackBonuses[attribute] : 0;
-
-        int penaltyFirstAttack = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
-                                  attribute == "Spd" && AreSpdPenaltiesEnabled || 
-                                  attribute == "Def" && AreDefPenaltiesEnabled || 
-                                  attribute == "Res" && AreResPenaltiesEnabled) && 
-                                 TemporaryFirstAttackPenalties.ContainsKey(attribute) ? TemporaryFirstAttackPenalties[attribute] : 0;
-
-        return baseValue + bonus + penalty + bonusFirstAttack + penaltyFirstAttack;
+        int baseValue = GetBaseAttributeValue(attribute);
+        int totalAdjustment = GetTotalAttributeAdjustment(attribute, TemporaryBonuses, TemporaryPenalties);
+        totalAdjustment += GetTotalAttributeAdjustment(attribute, TemporaryFirstAttackBonuses, TemporaryFirstAttackPenalties);
+        return baseValue + totalAdjustment;
     }
 
-    public int GetFollowUpAtribute(string attribute)
+    public int GetFollowUpAttribute(string attribute)
     {
-        int baseValue = attribute switch {
+        int baseValue = GetBaseAttributeValue(attribute);
+        int totalAdjustment = GetTotalAttributeAdjustment(attribute, TemporaryBonuses, TemporaryPenalties);
+        totalAdjustment += GetTotalAttributeAdjustment(attribute, TemporaryFollowUpBonuses, TemporaryFollowUpPenalties);
+        return baseValue + totalAdjustment;
+    }
+
+    private int GetBaseAttributeValue(string attribute)
+    {
+        return attribute switch {
             "Atk" => Atk,
             "Spd" => Spd,
             "Def" => Def,
             "Res" => Res,
             _ => throw new ArgumentException($"Unknown attribute: {attribute}")
         };
+    }
 
-        int bonus = (attribute == "Atk" && AreAtkBonusesEnabled || 
-                     attribute == "Spd" && AreSpdBonusesEnabled || 
-                     attribute == "Def" && AreDefBonusesEnabled || 
-                     attribute == "Res" && AreResBonusesEnabled) && 
-                    TemporaryBonuses.ContainsKey(attribute) ? TemporaryBonuses[attribute] : 0;
+    private int GetTotalAttributeAdjustment(string attribute, Dictionary<string, int> bonuses, Dictionary<string, int> penalties)
+    {
+        int bonus = GetAttributeAdjustment(attribute, bonuses, GetBonusEnabledFlag(attribute));
+        int penalty = GetAttributeAdjustment(attribute, penalties, GetPenaltyEnabledFlag(attribute));
+        return bonus + penalty;
+    }
 
-        int penalty = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
-                       attribute == "Spd" && AreSpdPenaltiesEnabled || 
-                       attribute == "Def" && AreDefPenaltiesEnabled || 
-                       attribute == "Res" && AreResPenaltiesEnabled) && 
-                      TemporaryPenalties.ContainsKey(attribute) ? TemporaryPenalties[attribute] : 0;
+    private int GetAttributeAdjustment(string attribute, Dictionary<string, int> adjustments, bool isEnabled)
+    {
+        return isEnabled && adjustments.ContainsKey(attribute) ? adjustments[attribute] : 0;
+    }
 
-        int bonusFollowUp = (attribute == "Atk" && AreAtkBonusesEnabled || 
-                                attribute == "Spd" && AreSpdBonusesEnabled || 
-                                attribute == "Def" && AreDefBonusesEnabled || 
-                                attribute == "Res" && AreResBonusesEnabled) && 
-                               TemporaryFollowUpBonuses.ContainsKey(attribute) ? TemporaryFollowUpBonuses[attribute] : 0;
+    private bool GetBonusEnabledFlag(string attribute)
+    {
+        return attribute switch {
+            "Atk" => AreAtkBonusesEnabled,
+            "Spd" => AreSpdBonusesEnabled,
+            "Def" => AreDefBonusesEnabled,
+            "Res" => AreResBonusesEnabled,
+            _ => true
+        };
+    }
 
-        int penaltyFollowUp = (attribute == "Atk" && AreAtkPenaltiesEnabled || 
-                                  attribute == "Spd" && AreSpdPenaltiesEnabled || 
-                                  attribute == "Def" && AreDefPenaltiesEnabled || 
-                                  attribute == "Res" && AreResPenaltiesEnabled) && 
-                                 TemporaryFollowUpPenalties.ContainsKey(attribute) ? TemporaryFollowUpPenalties[attribute] : 0;
-
-        return baseValue + bonus + penalty + bonusFollowUp + penaltyFollowUp;
+    private bool GetPenaltyEnabledFlag(string attribute)
+    {
+        return attribute switch {
+            "Atk" => AreAtkPenaltiesEnabled,
+            "Spd" => AreSpdPenaltiesEnabled,
+            "Def" => AreDefPenaltiesEnabled,
+            "Res" => AreResPenaltiesEnabled,
+            _ => true
+        };
     }
 
 
