@@ -48,8 +48,8 @@ public class Attack
     {
         double weaponTriangleBonus = advantage == "atacante" ? 1.2 : advantage == "defensor" ? 0.8 : 1.0;
         
-        int attackerAtk = Attacker.GetEffectiveAttribute("Atk");
-        int defenderDef = Defender.GetEffectiveAttribute(Attacker.Weapon == "Magic" ? "Res" : "Def");
+        int attackerAtk = Attacker.GetFollowUpAtribute("Atk");
+        int defenderDef = Defender.GetFollowUpAtribute(Attacker.Weapon == "Magic" ? "Res" : "Def");
 
         int damage = (int)((attackerAtk * weaponTriangleBonus) - defenderDef);
         damage = Math.Max(damage, 0);
@@ -63,8 +63,8 @@ public class Attack
     {
         double weaponTriangleBonus = advantage == "defensor" ? 1.2 : advantage == "atacante" ? 0.8 : 1.0;
         
-        int defenderAtk = Defender.GetEffectiveAttribute("Atk");
-        int attackerDef = Attacker.GetEffectiveAttribute(Defender.Weapon == "Magic" ? "Res" : "Def");
+        int defenderAtk = Defender.GetFollowUpAtribute("Atk");
+        int attackerDef = Attacker.GetFollowUpAtribute(Defender.Weapon == "Magic" ? "Res" : "Def");
 
         int damage = (int)((defenderAtk * weaponTriangleBonus) - attackerDef);
         damage = Math.Max(damage, 0);

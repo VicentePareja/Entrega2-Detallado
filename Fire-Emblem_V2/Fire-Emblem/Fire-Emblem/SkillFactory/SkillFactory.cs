@@ -146,6 +146,8 @@ namespace Fire_Emblem {
                     return new Dragonskin(name, description);
                 case "Light and Dark":
                     return new LightAndDark(name, description);
+                case "Sandstorm":
+                    return new Sandstorm(name, description);
                 default:
                     return new GenericSkill(name, description);
             }

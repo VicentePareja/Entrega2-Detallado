@@ -38,8 +38,10 @@ namespace Fire_Emblem
         {
             PrintBonuses(character);
             PrintFirstAttackBonuses(character);
+            PrintFollowUpBonuses(character);
             PrintPenalties(character);
             PrintFirstAttackPenalties(character);
+            PrintFollowUpPenalties(character);
             PrintBonusNegations(character);
             PrintPenaltyNegations(character);
         }
@@ -203,6 +205,32 @@ namespace Fire_Emblem
                 }
             }
         }
+        
+        private void PrintFollowUpBonuses(Character character)
+        {
+            string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+            foreach (var stat in statsOrder)
+            {
+                int bonus = character.TemporaryFollowUpBonuses.ContainsKey(stat) ? character.TemporaryFollowUpBonuses[stat] : 0;
+                if(bonus != 0)
+                {
+                    _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0} en su Follow-Up");
+                }
+            }
+        }
+        
+        private void PrintFollowUpPenalties(Character character)
+        {
+            string[] statsOrder = { "Atk", "Spd", "Def", "Res" };
+            foreach (var stat in statsOrder)
+            {
+                int bonus = character.TemporaryFollowUpPenalties.ContainsKey(stat) ? character.TemporaryFollowUpPenalties[stat] : 0;
+                if(bonus != 0)
+                {
+                    _view.WriteLine($"{character.Name} obtiene {stat}{bonus:+#;-#;+0} en su Follow-Up");
+                }
+            }
+        }
 
         
         private void ClearTemporaryBonuses()
@@ -211,6 +239,8 @@ namespace Fire_Emblem
             _defender.CleanBonuses();
             _attacker.CleanFirstAttackBonuses();
             _defender.CleanFirstAttackBonuses();
+            _attacker.CleanFollowUpBonuses();
+            _defender.CleanFollowUpBonuses();
             _attacker.ReEnableBonuses();
             _defender.ReEnableBonuses();
         }
@@ -221,6 +251,8 @@ namespace Fire_Emblem
             _defender.CleanPenalties();
             _attacker.CleanFirstAttackPenalties();
             _defender.CleanFirstAttackPenalties();
+            _attacker.CleanFollowUpPenalties();
+            _defender.CleanFollowUpPenalties();
             _attacker.ReEnablePenalties();
             _defender.ReEnablePenalties();
         }
